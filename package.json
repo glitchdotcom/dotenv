@@ -1,8 +1,16 @@
 {
   "name": "@glitchdotcom/dotenv",
   "private": true,
-  "version": "0.0.0-r1",
-  "main": "./index.js",
+  "version": "0.0.0-r2",
+  "main": "./dotenv.js",
   "type": "module",
-  "dependencies": {}
+  "dependencies": {},
+  "devDependencies": {
+    "ava": "^3.5.0",
+    "dedent": "^0.7.0",
+    "prettier": "^1.19.1"
+  },
+  "scripts": {
+    "test": "ava"
+  }
 }

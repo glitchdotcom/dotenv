@@ -1,0 +1,9 @@
+arrowParens = 'always'
+trailingComma = 'all'
+useTabs = true
+
+# package.json override since npm forces spaces
+[[overrides]]
+files = ['package.json', 'package-lock.json']
+	[overrides.options]
+	useTabs = false
