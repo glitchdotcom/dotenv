@@ -3,6 +3,6 @@ end_of_line = lf
 indent_style = tab
 insert_final_newline = true
 
-[{package.json,package-lock.json}]
+[{*.yml,package.json,package-lock.json}]
 indent_size = 2
 indent_style = space
