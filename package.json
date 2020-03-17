@@ -13,6 +13,7 @@
   },
   "scripts": {
     "build": "rollup -c",
-    "test": "ava"
+    "test": "ava",
+    "prepublishOnly": "npm run build"
   }
 }
