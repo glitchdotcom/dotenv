@@ -1,7 +1,8 @@
 {
   "name": "@glitchdotcom/dotenv",
   "private": true,
-  "version": "0.0.0-r0",
+  "version": "0.0.0-r1",
+  "main": "./index.js",
   "type": "module",
   "dependencies": {}
 }
