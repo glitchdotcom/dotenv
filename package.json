@@ -1,16 +1,18 @@
 {
   "name": "@glitchdotcom/dotenv",
   "private": true,
-  "version": "0.0.0-r2",
-  "main": "./dotenv.js",
-  "type": "module",
+  "version": "0.0.0-r3",
+  "main": "./dotenv.cjs.js",
+  "module": "./dotenv.esm.js",
   "dependencies": {},
   "devDependencies": {
     "ava": "^3.5.0",
     "dedent": "^0.7.0",
-    "prettier": "^1.19.1"
+    "prettier": "^1.19.1",
+    "rollup": "^2.0.6"
   },
   "scripts": {
+    "build": "rollup -c",
     "test": "ava"
   }
 }

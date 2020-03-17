@@ -1,6 +1,6 @@
-import test from "ava";
-import dedent from "dedent";
-import { textToAst, astToText } from "./dotenv.js";
+const test = require("ava");
+const dedent = require("dedent");
+const { astToText, textToAst } = require("./dotenv.cjs.js");
 
 test("textToAst | astToText === identity", (t) => {
 	const text = dedent`
