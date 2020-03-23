@@ -48,7 +48,7 @@ function parseLine(line) {
 
 	const [valuePrefix] = fullValue.match(/^\s+/) || [""];
 	const [valueSuffix] = fullValue.match(/\s+$/) || [""];
-	let value = fullValue.trim().replace("\\n", "\n");
+	let value = fullValue.trim();
 
 	let quoted = false;
 	const [startQuote] = value.match(/^("|')/) || [];
@@ -56,6 +56,12 @@ function parseLine(line) {
 		value = value.slice(1, -1);
 		quoted = true;
 	}
+
+	if (startQuote === '"') {
+		value = value.replace(/\\n/g, "\n");
+	}
+
+	const quote = quoted ? startQuote : "";
 
 	return {
 		type: KEY_VALUE,
@@ -65,7 +71,8 @@ function parseLine(line) {
 		fullValue,
 		valuePrefix,
 		valueSuffix,
-		quote: quoted ? startQuote : null,
+		quote,
+		originalQuote: quote,
 	};
 }
 
@@ -123,11 +130,11 @@ export function changeValue(ast, i, newValue) {
 		return ast;
 	}
 	const quote =
-		newValue.includes("\n") || newValue.match(/^\s/) || newValue.match(/\s$/)
+		newValue.match(/\n/) || newValue.match(/^\s/) || newValue.match(/\s$/)
 			? '"'
-			: "";
+			: node.originalQuote;
 	const fullValue = `${node.valuePrefix}${quote}${newValue.replace(
-		"\n",
+		/\n/g,
 		"\\n",
 	)}${quote}${node.valueSuffix}`;
 	const newNode = {
