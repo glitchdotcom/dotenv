@@ -1,21 +1,21 @@
 {
-  "name": "@glitchdotcom/dotenv",
-  "description": "A dotenv parser.",
-  "repository": "https://github.com/glitchdotcom/dotenv",
-  "license": "UNLICENSED",
-  "version": "0.0.0-r5",
-  "main": "./dotenv.cjs.js",
-  "module": "./dotenv.esm.js",
-  "dependencies": {},
-  "devDependencies": {
-    "ava": "^3.5.0",
-    "dotenv": "^8.2.0",
-    "prettier": "^1.19.1",
-    "rollup": "^2.0.6"
-  },
-  "scripts": {
-    "build": "rollup -c",
-    "test": "npm run build && ava",
-    "prepublishOnly": "npm run build"
-  }
+	"name": "@glitchdotcom/dotenv",
+	"description": "A dotenv parser.",
+	"repository": "https://github.com/glitchdotcom/dotenv",
+	"license": "UNLICENSED",
+	"version": "0.0.0-r5",
+	"main": "./dotenv.cjs.js",
+	"module": "./dotenv.esm.js",
+	"dependencies": {},
+	"devDependencies": {
+		"ava": "^3.5.1",
+		"dotenv": "^8.2.0",
+		"prettier": "^2.0.1",
+		"rollup": "^2.1.0"
+	},
+	"scripts": {
+		"build": "rollup -c",
+		"test": "npm run build && ava",
+		"prepublishOnly": "npm run build"
+	}
 }
