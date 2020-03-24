@@ -15,7 +15,8 @@
 	},
 	"scripts": {
 		"build": "rollup -c",
-		"test": "npm run build && ava",
+		"test": "prettier -c . && npm run build && ava",
+		"fmt": "prettier --write .",
 		"prepublishOnly": "npm run build"
 	}
 }
