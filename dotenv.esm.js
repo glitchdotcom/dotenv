@@ -1,8 +1,6 @@
 /**
  * TODO
  * - comments! docs! cleanup!
- * - write tests
- * - ensure compat with dotenv (through tests)
  */
 
 export const EMPTY_LINE = "EMPTY_LINE";
