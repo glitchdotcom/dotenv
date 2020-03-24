@@ -1,6 +1,8 @@
 # @glitchdotcom/dotenv
 
-`@glitchdotcom/dotenv` is a totally tubular 🏄🏼 library to parse _and manipulate_ dotenv syntax while maintaining comments and whitespace. `@glitchdotcom/dotenv` has zero dependencies, is licensed under the MIT license, and has a simple, functional api.
+`@glitchdotcom/dotenv` is a totally tubular 🏄🏼 library to parse _and manipulate_ dotenv
+syntax while maintaining comments and whitespace. `@glitchdotcom/dotenv` has zero
+dependencies, is licensed under the MIT license, and has a simple, functional api.
 
 ## install
 
@@ -15,9 +17,16 @@ yarn add @glitchdotcom/dotenv
 pnpm install @glitchdotcom/dotenv
 ```
 
-## license
+## license, code of conduct, and contributing
 
-`@glitchdotcom/dotenv` is licensed under the MIT license. a copy of this license can be found in the LICENSE file.
+`@glitchdotcom/dotenv` is licensed under the MIT license. a copy of this license can be
+found in the [LICENSE](LICENSE) file.
+
+for this project's code of conduct, see the [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) file.
+
+do you want to contribute to something ~amazing~ (this package)? yes?? well the [CONTRIBUTING.md](CONTRIBUTING.md)
+file should tell you everything you need to know! if it doesn't, let us know (which would
+make a _perfect_ first contribution)!
 
 ## quickstart
 
