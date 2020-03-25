@@ -70,6 +70,10 @@ function parseLine(line) {
 
 // split at newlines, parse each line, push results into node list
 export function textToNodes(text) {
+	if (text === "") {
+		return [];
+	}
+
 	const lines = text.split("\n");
 	const result = [];
 
