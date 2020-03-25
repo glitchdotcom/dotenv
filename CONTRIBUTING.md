@@ -14,8 +14,8 @@ helpful to include in your bug report:
 3. clear reproduction steps. in the case of `@glitchdotcom/dotenv`, a code sample would
    be \~amazing\~ (you can use [glitch](https://glitch.com) to make it runnable!).
 4. a description of the environment your code is running in. as a few examples: "bundled with
-   parcel, running on firefox version 74 on macos 10.15", or "compiled typescript and running
-   on node.js 12.16.1 on ubuntu 18.04".
+   parcel, running in firefox version 74 on macos 10.15", or "compiled typescript and running
+   in node.js 12.16.1 on ubuntu 18.04".
 
 ## suggesting improvements
 
