@@ -27,7 +27,8 @@ appreciate and consider all suggestions, not all suggestions will be implemented
 to submit a change, create a pr here on github. as a courtesy to the person reviewing your pr,
 check that all of these are true when creating your pr:
 
-1. the tests on your branch are passing. you can check this by running `npm test`.
+1. the tests on your branch are passing. you can check this by running `npm test`. there will
+   also be a ❌ next to your branch name if the tests are failing.
 2. if you have fixed a bug or added a feature, you've also added a test to ensure the bug
    remains fixed or that the feature works.
 3. if you're adding a feature, you've included in the pr description why you think the feature
