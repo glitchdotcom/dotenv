@@ -1,9 +1,9 @@
 {
 	"name": "@glitchdotcom/dotenv",
-	"description": "A dotenv parser.",
+	"description": "a totally tubular 🏄🏼 library to parse and manipulate dotenv syntax",
 	"repository": "https://github.com/glitchdotcom/dotenv",
 	"license": "MIT",
-	"version": "0.0.0-r8",
+	"version": "1.0.0",
 	"main": "./dotenv.cjs.js",
 	"module": "./dotenv.esm.js",
 	"dependencies": {},
