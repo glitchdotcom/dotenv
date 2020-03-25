@@ -16,6 +16,7 @@ export interface DotenvKeyValueNode {
 	key: string;
 	fullKey: string;
 	value: string;
+	escapedValue: string;
 	fullValue: string;
 	quote: Quote;
 	originalQuote: Quote;

@@ -9,6 +9,14 @@ function splitAtFirst(string, delimiter) {
 	return [first, rest.length > 0 ? rest.join(delimiter) : null];
 }
 
+function escape(string) {
+	return string.replace(/\n/g, "\\n");
+}
+
+function unescape(string) {
+	return string.replace(/\\n/g, "\n");
+}
+
 // parse a single line into a node
 function parseLine(line) {
 	// First handle empty lines...
@@ -38,33 +46,29 @@ function parseLine(line) {
 		return { type: INVALID_LINE, text: line };
 	}
 
-	// extract whitespace before and after value
-	const [valuePrefix] = fullValue.match(/^\s+/) || [""];
-	const [valueSuffix] = fullValue.match(/\s+$/) || [""];
-
-	let value = fullValue.trim();
+	let escapedValue = fullValue.trim();
 
 	// find and remove quotes if the value is quoted
 	let quote = "";
-	const [startQuote] = value.match(/^("|')/) || [];
-	if (startQuote && value.endsWith(startQuote)) {
-		value = value.slice(1, -1);
+	const [startQuote] = escapedValue.match(/^("|')/) || [];
+	if (startQuote && escapedValue.endsWith(startQuote)) {
+		escapedValue = escapedValue.slice(1, -1);
 		quote = startQuote;
 	}
 
 	// if double quoted, unescape newlines
+	let value = escapedValue;
 	if (quote === '"') {
-		value = value.replace(/\\n/g, "\n");
+		value = unescape(value);
 	}
 
 	return {
 		type: KEY_VALUE,
 		key,
-		value,
 		fullKey,
+		value,
+		escapedValue,
 		fullValue,
-		valuePrefix,
-		valueSuffix,
 		quote,
 		originalQuote: quote,
 	};
@@ -117,7 +121,7 @@ export function changeKey(ast, index, newKey) {
 	const key = newKey.trim();
 	const newNode = {
 		...node,
-		key: key,
+		key,
 		fullKey: node.fullKey.replace(node.key, key),
 	};
 
@@ -141,16 +145,17 @@ export function changeValue(ast, index, newValue) {
 			? '"'
 			: node.originalQuote;
 
-	// build a full value containing leading whitespace, a quote (if needed), the new value (escaped), an end
-	// quote (if needed), and then the trailing whitespace
-	const fullValue = `${node.valuePrefix}${quote}${newValue.replace(
-		/\n/g,
-		"\\n",
-	)}${quote}${node.valueSuffix}`;
+	const escapedNewValue = escape(newValue);
+
+	const fullValue = node.fullValue.replace(
+		`${node.quote}${node.escapedValue}${node.quote}`,
+		`${quote}${escapedNewValue}${quote}`,
+	);
 
 	const newNode = {
 		...node,
 		value: newValue,
+		escapedValue: escapedNewValue,
 		fullValue,
 		quote,
 	};
@@ -166,15 +171,18 @@ export function appendKeyValue(ast, key, value) {
 		throw new Error("Keys cannot contain whitespace");
 	}
 
+	const escapedValue = escape(value);
+
 	const newNode = {
 		type: KEY_VALUE,
 		key,
 		fullKey: key,
 		value,
-		fullValue: value.replace("\n", "\\n"),
-		valuePrefix: "",
-		valueSuffix: "",
-		quote: value.includes("\n") ? '"' : null,
+		escapedValue,
+		fullValue: escapedValue,
+
+		// if we escaped newlines, set quote
+		quote: value !== escapedValue ? '"' : null,
 	};
 
 	return [...ast, newNode];

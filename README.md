@@ -97,10 +97,11 @@ if (!firstCommentNode) {
 ### node objects and properties
 
 `KEY_VALUE` nodes have the following properties: type (will always be `"KEY_VALUE"`), key (no
-whitespace), value (no whitespace), fullKey (includes extraneous whitespace), fullValue (includes
-extraneous whitespace), quote (", ', or an empty string depending on what quotes are around the
-value), and originalQuote (the quotes that were around the value when the text was parsed). as
-an example, a key-value pair like this...
+whitespace), value (no whitespace), escapedValue (value including escaped newlines),
+fullKey (includes extraneous whitespace), fullValue (includes extraneous whitespace), quote (",
+', or an empty string depending on what quotes are around the value), and originalQuote (the
+quotes that were around the value when the text was parsed). as an example, a key-value pair
+like this...
 
 ```bash
 # extra whitespace intentional
@@ -113,19 +114,20 @@ an example, a key-value pair like this...
 {
 	type: "KEY_VALUE",
 	key: "SOME_KEY",
-	value: "some value",
 	fullKey: "  SOME_KEY",
+	value: "some value",
+	escapedValue: "some value",
 	fullValue: " some value",
 	quote: "",
 	originalQuote: ""
 }
 ```
 
-if the value contained quotes around it like this...
+if the value contained escaped newlines and quotes around it like this...
 
 ```bash
 # extra whitespace intentional
-  SOME_KEY=" some value"
+  SOME_KEY=" some \n value"
 ```
 
 ...then it will be parsed into something like this...
@@ -134,9 +136,10 @@ if the value contained quotes around it like this...
 {
 	type: "KEY_VALUE",
 	key: "SOME_KEY",
-	value: " some value", // notice the extra space in front
 	fullKey: "  SOME_KEY",
-	fullValue: " some value",
+	value: " some \n value", // notice the extra space in front
+	escapedValue: " some \\n value",
+	fullValue: " some \\n value",
 	quote: '"', // quote and originalQuote contain the quote that was used
 	originalQuote: '"'
 }
