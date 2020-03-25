@@ -38,9 +38,9 @@ export type DotenvNode =
 
 export type DotenvNodeList = DotenvNode[];
 
-export function textToAst(text: string): DotenvNodeList;
+export function textToNodes(text: string): DotenvNodeList;
 
-export function astToText(nodeList: DotenvNodeList): string;
+export function nodesToText(nodeList: DotenvNodeList): string;
 
 export function appendKeyValue(
 	nodeList: DotenvNodeList,
@@ -65,6 +65,6 @@ export function removeKeyValue(
 	index: number,
 ): DotenvNodeList;
 
-export function parseAst(nodeList: DotenvNodeList): Record<string, any>;
+export function parseNodes(nodeList: DotenvNodeList): Record<string, any>;
 
 export function parseText(text: string): Record<string, any>;

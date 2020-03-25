@@ -3,7 +3,7 @@
 	"description": "A dotenv parser.",
 	"repository": "https://github.com/glitchdotcom/dotenv",
 	"license": "MIT",
-	"version": "0.0.0-r7",
+	"version": "0.0.0-r8",
 	"main": "./dotenv.cjs.js",
 	"module": "./dotenv.esm.js",
 	"dependencies": {},

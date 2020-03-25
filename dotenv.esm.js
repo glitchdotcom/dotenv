@@ -69,7 +69,7 @@ function parseLine(line) {
 }
 
 // split at newlines, parse each line, push results into node list
-export function textToAst(text) {
+export function textToNodes(text) {
 	const lines = text.split("\n");
 	const result = [];
 
@@ -81,10 +81,10 @@ export function textToAst(text) {
 }
 
 // build a string from a node list
-export function astToText(ast) {
+export function nodesToText(nodes) {
 	let result = "";
 
-	for (const node of ast) {
+	for (const node of nodes) {
 		if (node.type === KEY_VALUE) {
 			result += `${node.fullKey}=${node.fullValue}`;
 		} else if (node.type === COMMENT) {
@@ -103,11 +103,11 @@ export function astToText(ast) {
 	return result.slice(0, -1);
 }
 
-// find ast node, ensure it's a kv pair, and immutably update its `key` and `fullKey` properties
-export function changeKey(ast, index, newKey) {
-	const node = ast[index];
+// find node, ensure it's a kv pair, and immutably update its `key` and `fullKey` properties
+export function changeKey(nodes, index, newKey) {
+	const node = nodes[index];
 	if (node.type !== KEY_VALUE) {
-		return ast;
+		return nodes;
 	}
 
 	const key = newKey.trim();
@@ -117,16 +117,16 @@ export function changeKey(ast, index, newKey) {
 		fullKey: node.fullKey.replace(node.key, key),
 	};
 
-	const newAst = ast.slice(); // clone array since .splice mutates
-	newAst.splice(index, 1, newNode); // replace element at index with newNode
-	return newAst;
+	const newNodes = nodes.slice(); // clone array since .splice mutates
+	newNodes.splice(index, 1, newNode); // replace element at index with newNode
+	return newNodes;
 }
 
-// find ast node, ensure it's a kv pair, and immutably update its `value`, `fullValue`, and `quote` properties
-export function changeValue(ast, index, newValue) {
-	const node = ast[index];
+// find node, ensure it's a kv pair, and immutably update its `value`, `fullValue`, and `quote` properties
+export function changeValue(nodes, index, newValue) {
+	const node = nodes[index];
 	if (node.type !== KEY_VALUE) {
-		return ast;
+		return nodes;
 	}
 
 	// if the new value needs to be escaped (contains a newline or has leading or trailing whitespace), change quote
@@ -152,13 +152,13 @@ export function changeValue(ast, index, newValue) {
 		quote,
 	};
 
-	const newAst = ast.slice(); // clone array since .splice mutates
-	newAst.splice(index, 1, newNode); // replace element at index with newNode
-	return newAst;
+	const newNodes = nodes.slice(); // clone array since .splice mutates
+	newNodes.splice(index, 1, newNode); // replace element at index with newNode
+	return newNodes;
 }
 
 // append a key value pair to the end of the node list
-export function appendKeyValue(ast, key, value) {
+export function appendKeyValue(nodes, key, value) {
 	if (key.match(/\s/)) {
 		throw new Error("Keys cannot contain whitespace");
 	}
@@ -177,25 +177,25 @@ export function appendKeyValue(ast, key, value) {
 		quote: value !== escapedValue ? '"' : null,
 	};
 
-	return [...ast, newNode];
+	return [...nodes, newNode];
 }
 
 // remove a key value pair from the node list at index
-export function removeKeyValue(ast, index) {
-	const node = ast[index];
+export function removeKeyValue(nodes, index) {
+	const node = nodes[index];
 	if (node.type !== KEY_VALUE) {
-		return ast;
+		return nodes;
 	}
 
-	const newAst = ast.slice(); // clone array since .splice mutates
-	newAst.splice(index, 1); // replace element at index with newNode
-	return newAst;
+	const newNodes = nodes.slice(); // clone array since .splice mutates
+	newNodes.splice(index, 1); // replace element at index with newNode
+	return newNodes;
 }
 
 // extract key value pairs from a node list into a Javascript object
-export function parseAst(ast) {
+export function parseNodes(nodes) {
 	const result = {};
-	for (const node of ast) {
+	for (const node of nodes) {
 		if (node.type === KEY_VALUE) {
 			result[node.key] = node.value;
 		}
@@ -203,8 +203,8 @@ export function parseAst(ast) {
 	return result;
 }
 
-// leverage textToAst and parseAst to extract key value pairs from a dotenv string into a Javascript object
+// leverage textToNodes and parseNodes to extract key value pairs from a dotenv string into a Javascript object
 export function parseText(text) {
-	const ast = textToAst(text);
-	return parseAst(ast);
+	const nodes = textToNodes(text);
+	return parseNodes(nodes);
 }

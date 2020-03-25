@@ -1,11 +1,11 @@
 const test = require("ava");
-const { textToAst, astToText } = require("../dotenv.cjs.js");
+const { textToNodes, nodesToText } = require("../dotenv.cjs.js");
 
 const complexEnv = require("./_complexEnv");
 
-test("textToAst into astToText is effectively a no-op", (t) => {
-	const ast = textToAst(complexEnv);
-	const reconstituted = astToText(ast);
+test("textToNodes into nodesToText is effectively a no-op", (t) => {
+	const nodes = textToNodes(complexEnv);
+	const reconstituted = nodesToText(nodes);
 
 	t.is(reconstituted, complexEnv, "reconstituted should be the as original");
 });

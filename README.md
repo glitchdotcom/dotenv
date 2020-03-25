@@ -38,7 +38,7 @@ const envText = `SOME_KEY=some value`;
 
 // node list represents the following as an array of objects...
 // SOME_KEY=some value
-let nodes = dotenv.textToAst(envText);
+let nodes = dotenv.textToNodes(envText);
 
 // find index of the key value node with SOME_KEY as the key
 const index = nodes.find((node) => node.key === "SOME_KEY");
@@ -61,13 +61,13 @@ nodes = dotenv.appendKeyValue(nodes, "NEW_KEY", "new value");
 nodes = dotenv.removeKeyValue(nodes, index);
 
 // newText will be "NEW_KEY=new value"
-const newText = dotenv.astToText(nodes);
+const newText = dotenv.nodesToText(nodes);
 
 // parsedText will be { NEW_KEY: "new value" }
 const parsedText = dotenv.parseText(newText);
 
-// parsedAst will be { NEW_KEY: "new value" }
-const parsedAst = dotenv.parseAst(nodes);
+// parsedNodes will be { NEW_KEY: "new value" }
+const parsedNodes = dotenv.parseNodes(nodes);
 ```
 
 ## api
@@ -82,7 +82,7 @@ example:
 ```javascript
 import * as dotenv from "@glitchdotcom/dotenv";
 
-let nodes = dotenv.textToAst(`KEY=value
+let nodes = dotenv.textToNodes(`KEY=value
 # some comment`);
 
 let firstCommentNode = nodes.find((node) => node.type === dotenv.COMMENT);
@@ -179,22 +179,22 @@ i am an invalid line because i do not contain an equals sign!
 }
 ```
 
-### textToAst/astToText
+### textToNodes/nodesToText
 
-`textToAst` converts text to a dotenv node list that can be manipulated. the node list
-represents the data contained within the string passed to `textToAst` as an array of nodes.
+`textToNodes` converts text to a dotenv node list that can be manipulated. the node list
+represents the data contained within the string passed to `textToNodes` as an array of nodes.
 it also maintains comments, empty/invalid lines, and extraneous whitespace. it does
 everything it can to return _something_ even if the string passed to it is not valid dotenv
-syntax. `astToText` does the reverse of `textToAst`. it takes a node list and converts it
-back into a string. like `textToAst`, it maintains comments, empty/invalid lines, and
+syntax. `nodesToText` does the reverse of `textToNodes`. it takes a node list and converts it
+back into a string. like `textToNodes`, it maintains comments, empty/invalid lines, and
 extraneous whitespace.
 
 example:
 
 ```javascript
 import dotenv from "@glitchdotcom/dotenv";
-let nodes = dotenv.textToAst(`KEY=value`);
-let text = dotenv.astToText(nodes);
+let nodes = dotenv.textToNodes(`KEY=value`);
+let text = dotenv.nodesToText(nodes);
 assert(text === `KEY=value`);
 ```
 
@@ -208,9 +208,9 @@ example:
 
 ```javascript
 import dotenv from "@glitchdotcom/dotenv";
-let nodes = dotenv.textToAst(`KEY=value`);
+let nodes = dotenv.textToNodes(`KEY=value`);
 nodes = dotenv.appendKeyValue(nodes, "SOMETHING", "anything");
-let text = dotenv.astToText(nodes);
+let text = dotenv.nodesToText(nodes);
 assert(
 	text ===
 		`KEY=value
@@ -228,10 +228,10 @@ example:
 
 ```javascript
 import dotenv from "@glitchdotcom/dotenv";
-let nodes = dotenv.textToAst(`KEY=value`);
+let nodes = dotenv.textToNodes(`KEY=value`);
 let index = nodes.find((node) => node.key === "KEY");
 nodes = dotenv.changeKey(nodes, index, "SOMETHING_ELSE");
-let text = dotenv.astToText(nodes);
+let text = dotenv.nodesToText(nodes);
 assert(text === `SOMETHING_ELSE=value`);
 ```
 
@@ -245,10 +245,10 @@ example:
 
 ```javascript
 import dotenv from "@glitchdotcom/dotenv";
-let nodes = dotenv.textToAst(`KEY=value`);
+let nodes = dotenv.textToNodes(`KEY=value`);
 let index = nodes.find((node) => node.key === "KEY");
 nodes = dotenv.changeValue(nodes, index, "another value");
-let text = dotenv.astToText(nodes);
+let text = dotenv.nodesToText(nodes);
 assert(text === `KEY=another value`);
 ```
 
@@ -262,11 +262,11 @@ example:
 
 ```javascript
 import dotenv from "@glitchdotcom/dotenv";
-let nodes = dotenv.textToAst(`KEY=value
+let nodes = dotenv.textToNodes(`KEY=value
 SOMETHING=anything`);
 let index = nodes.find((node) => node.key === "SOMETHING");
 nodes = dotenv.removeKeyValue(nodes, index);
-let text = dotenv.astToText(nodes);
+let text = dotenv.nodesToText(nodes);
 assert(text === `KEY=value`);
 ```
 
@@ -282,18 +282,18 @@ let env = dotenv.parseText(`KEY=value`);
 assert(env.KEY === `value`);
 ```
 
-### parseAst
+### parseNodes
 
-`parseAst` takes a node list and extracts the key-value pairs into an object. generally
+`parseNodes` takes a node list and extracts the key-value pairs into an object. generally
 you want to use `parseText`, however if you've already converted the text into a node list,
-`parseAst` skips the text parsing step.
+`parseNodes` skips the text parsing step.
 
 example:
 
 ```javascript
 import dotenv from "@glitchdotcom/dotenv";
-let nodes = dotenv.textToAst(`KEY=value`);
-let env = dotenv.parseAst(nodes);
+let nodes = dotenv.textToNodes(`KEY=value`);
+let env = dotenv.parseNodes(nodes);
 assert(env.KEY === `value`);
 ```
 

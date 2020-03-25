@@ -1,6 +1,6 @@
 const test = require("ava");
 const complexEnv = require("./_complexEnv");
-const { appendKeyValue, astToText, textToAst } = require("../dotenv.cjs");
+const { appendKeyValue, nodesToText, textToNodes } = require("../dotenv.cjs");
 
 test("appendKeyValue appends to the data", (t) => {
 	const key = "APPENDED_KEY";
@@ -8,8 +8,8 @@ test("appendKeyValue appends to the data", (t) => {
 	const expected = `${complexEnv}
 ${key}=${value}`;
 
-	let ast = textToAst(complexEnv);
-	ast = appendKeyValue(ast, key, value);
+	let nodes = textToNodes(complexEnv);
+	nodes = appendKeyValue(nodes, key, value);
 
-	t.is(astToText(ast), expected);
+	t.is(nodesToText(nodes), expected);
 });
