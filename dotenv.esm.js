@@ -80,6 +80,9 @@ export function textToNodes(text) {
 	return result;
 }
 
+// maintain reference after name change
+export const textToAst = textToNodes;
+
 // build a string from a node list
 export function nodesToText(nodes) {
 	let result = "";
@@ -102,6 +105,9 @@ export function nodesToText(nodes) {
 	// remove extra newline at the end
 	return result.slice(0, -1);
 }
+
+// maintain reference after name change
+export const astToText = nodesToText;
 
 // find node, ensure it's a kv pair, and immutably update its `key` and `fullKey` properties
 export function changeKey(nodes, index, newKey) {
@@ -202,6 +208,9 @@ export function parseNodes(nodes) {
 	}
 	return result;
 }
+
+// maintain reference after name change
+export const parseAst = parseNodes;
 
 // leverage textToNodes and parseNodes to extract key value pairs from a dotenv string into a Javascript object
 export function parseText(text) {
