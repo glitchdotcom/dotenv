@@ -24,7 +24,7 @@ found in the [LICENSE](LICENSE) file.
 
 for this project's code of conduct, see the [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) file.
 
-do you want to contribute to something ~amazing~ (this package)? yes?? well the [CONTRIBUTING.md](CONTRIBUTING.md)
+do you want to contribute to something \~amazing\~ (this package)? yes?? well the [CONTRIBUTING.md](CONTRIBUTING.md)
 file should tell you everything you need to know! if it doesn't, let us know (which would
 make a _perfect_ first contribution)!
 
