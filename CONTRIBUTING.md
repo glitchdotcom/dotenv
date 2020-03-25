@@ -12,7 +12,7 @@ helpful to include in your bug report:
 1. a description of the issue you're running into.
 2. a description of the behaviour you were expecting.
 3. clear reproduction steps. in the case of `@glitchdotcom/dotenv`, a code sample would
-   be ~amazing~ (you can use [glitch](https://glitch.com) to make it runnable!).
+   be \~amazing\~ (you can use [glitch](https://glitch.com) to make it runnable!).
 4. a description of the environment your code is running in. as a few examples: "bundled with
    parcel, running on firefox version 74 on macos 10.15", or "compiled typescript and running
    on node.js 12.16.1 on ubuntu 18.04".
