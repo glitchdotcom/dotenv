@@ -1,9 +1,7 @@
-export type EMPTY_LINE = "EMPTY_LINE";
 export type KEY_VALUE = "KEY_VALUE";
 export type COMMENT = "COMMENT";
 export type INVALID_LINE = "INVALID_LINE";
 
-export const EMPTY_LINE: EMPTY_LINE;
 export const KEY_VALUE: KEY_VALUE;
 export const COMMENT: COMMENT;
 export const INVALID_LINE: INVALID_LINE;
@@ -22,10 +20,6 @@ export interface DotenvKeyValueNode {
 	originalQuote: Quote;
 }
 
-export interface DotenvEmptyLineNode {
-	type: EMPTY_LINE;
-}
-
 export interface DotenvCommentNode {
 	type: COMMENT;
 	prefix: string;
@@ -39,7 +33,6 @@ export interface DotenvInvalidLineNode {
 
 export type DotenvNode =
 	| DotenvCommentNode
-	| DotenvEmptyLineNode
 	| DotenvKeyValueNode
 	| DotenvInvalidLineNode;
 

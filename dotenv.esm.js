@@ -1,5 +1,4 @@
 // Node types
-export const EMPTY_LINE = "EMPTY_LINE";
 export const KEY_VALUE = "KEY_VALUE";
 export const COMMENT = "COMMENT";
 export const INVALID_LINE = "INVALID_LINE";
@@ -19,12 +18,7 @@ function unescape(string) {
 
 // parse a single line into a node
 function parseLine(line) {
-	// First handle empty lines...
-	if (line.trim() === "") {
-		return { type: EMPTY_LINE };
-	}
-
-	// ...then handle comments...
+	// handle comments...
 	const [firstNonWhitespaceChar] = line.match(/\S/) || [];
 	if (firstNonWhitespaceChar === "#") {
 		const [_fullMatch, prefix, comment] = line.match(/(^\s*#\s*)(.*)/);
@@ -97,8 +91,6 @@ export function astToText(ast) {
 			result += `${node.prefix}${node.comment}`;
 		} else if (node.type === INVALID_LINE) {
 			result += node.text;
-		} else if (node.type === EMPTY_LINE) {
-			// pass, we add a newline after this `else if` chain
 		} else {
 			// if someone manually manipulated the node list, we could have an invalid node
 			throw new Error(`Invalid node type: ${node.type}`);

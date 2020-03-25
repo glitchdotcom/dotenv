@@ -75,7 +75,7 @@ const parsedAst = dotenv.parseAst(nodes);
 ### node types
 
 dotenv exports a handful of consts that represent the different types of nodes. there are
-4 node types, `KEY_VALUE`, `COMMENT`, `EMPTY_LINE`, and `INVALID_LINE`.
+3 node types, `KEY_VALUE`, `COMMENT`, and `INVALID_LINE`.
 
 example:
 
@@ -176,20 +176,6 @@ i am an invalid line because i do not contain an equals sign!
 {
 	type: "INVALID_LINE",
 	line: "i am an invalid line because i do not contain an equals sign!"
-}
-```
-
-`EMPTY_LINE` nodes only have a single property: type (will always be `EMPTY_LINE`). something like...
-
-```bash
-
-```
-
-...will be parsed into a node like...
-
-```javascript
-{
-	type: "EMPTY_LINE";
 }
 ```
 
