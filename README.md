@@ -139,9 +139,9 @@ if the value contained escaped newlines and quotes around it like this...
 	fullKey: "  SOME_KEY",
 	value: " some \n value", // notice the extra space in front
 	escapedValue: " some \\n value",
-	fullValue: " some \\n value",
-	quote: '"', // quote and originalQuote contain the quote that was used
-	originalQuote: '"'
+	fullValue: "\" some \\n value\"",
+	quote: "\"", // quote and originalQuote contain the quote that was used
+	originalQuote: "\""
 }
 ```
 
@@ -179,38 +179,54 @@ i am an invalid line because i do not contain an equals sign!
 }
 ```
 
+an important thing to note with `INVALID_LINE` nodes is that an empty line is also an
+`INVALID_LINE` since it doesn't contain an equals sign! empty lines aren't ignored since one
+of the goals of `@glitchdotcom/dotenv` is to preserve as much whitespace as possible. we
+have to capture that data somehow, so we do it with an `INVALID_LINE` node that has an empty
+string as the `line` property.
+
+```javascript
+{
+	type: "INVALID_LINE",
+	line: ""
+}
+```
+
 ### textToNodes/nodesToText
 
-`textToNodes` converts text to a dotenv node list that can be manipulated. the node list
-represents the data contained within the string passed to `textToNodes` as an array of nodes.
-it also maintains comments, empty/invalid lines, and extraneous whitespace. it does
-everything it can to return _something_ even if the string passed to it is not valid dotenv
-syntax. `nodesToText` does the reverse of `textToNodes`. it takes a node list and converts it
-back into a string. like `textToNodes`, it maintains comments, empty/invalid lines, and
-extraneous whitespace.
+`textToNodes` converts a string to a dotenv node list that can be manipulated. the node list
+represents the dotenv data contained within the string as an array of nodes. it maintains comments,
+empty/invalid lines, and extraneous whitespace. it does everything it can to return _something_
+even if the string passed to it is not valid dotenv syntax. `nodesToText` does the reverse of
+`textToNodes`. it takes a node list and converts it back into a string. like `textToNodes`,
+it maintains comments, empty/invalid lines, and extraneous whitespace.
 
 example:
 
 ```javascript
-import dotenv from "@glitchdotcom/dotenv";
+import * as dotenv from "@glitchdotcom/dotenv";
+
 let nodes = dotenv.textToNodes(`KEY=value`);
 let text = dotenv.nodesToText(nodes);
+
 assert(text === `KEY=value`);
 ```
 
 ### appendKeyValue
 
-adds a new key value pair to the end of the node list. like all dotenv manipulation
+`appendKeyValue` adds a new key value pair to the end of the node list. like all dotenv manipulation
 functions, `appendKeyValue` is immutable and returns a new list instead of modifying the
 list in place.
 
 example:
 
 ```javascript
-import dotenv from "@glitchdotcom/dotenv";
+import * as dotenv from "@glitchdotcom/dotenv";
+
 let nodes = dotenv.textToNodes(`KEY=value`);
 nodes = dotenv.appendKeyValue(nodes, "SOMETHING", "anything");
 let text = dotenv.nodesToText(nodes);
+
 assert(
 	text ===
 		`KEY=value
@@ -220,36 +236,52 @@ SOMETHING=anything`,
 
 ### changeKey
 
-`changeKey` changes the key of a key-value node. like all dotenv manipulation
+`changeKey` changes the key of a key-value node. using `changeKey` does not modify
+any whitespace that was present in the original text. like all dotenv manipulation
 functions, `changeKey` is immutable and returns a new list instead of modifying the
 list in place.
 
-example:
+examples:
 
 ```javascript
-import dotenv from "@glitchdotcom/dotenv";
+import * as dotenv from "@glitchdotcom/dotenv";
+
 let nodes = dotenv.textToNodes(`KEY=value`);
 let index = nodes.find((node) => node.key === "KEY");
 nodes = dotenv.changeKey(nodes, index, "SOMETHING_ELSE");
 let text = dotenv.nodesToText(nodes);
+
 assert(text === `SOMETHING_ELSE=value`);
+
+// now with whitespace!
+let nodes = dotenv.textToNodes(` KEY   =value`);
+let index = nodes.find((node) => node.key === "KEY"); // the `key` property does not include whitespace
+nodes = dotenv.changeKey(nodes, index, "SOMETHING_ELSE");
+let text = dotenv.nodesToText(nodes);
+
+assert(text === ` SOMETHING_ELSE   =value`); // when converting back to text, the original whitespace is preserved!
 ```
 
 ### changeValue
 
-`changeValue` changes the value of a key-value node. like all dotenv manipulation
-functions, `changeValue` is immutable and returns a new list instead of modifying the
-list in place.
+`changeValue` changes the value of a key-value node. it automatically escapes newlines
+and adds quotes around the value if necessary. like `changeKey`, the original whitespace
+is not modified. like all dotenv manipulation functions, `changeValue` is immutable and
+returns a new list instead of modifying the list in place.
 
 example:
 
 ```javascript
-import dotenv from "@glitchdotcom/dotenv";
-let nodes = dotenv.textToNodes(`KEY=value`);
+import * as dotenv from "@glitchdotcom/dotenv";
+
+let nodes = dotenv.textToNodes(`KEY=  value`); // notice whitespace
 let index = nodes.find((node) => node.key === "KEY");
-nodes = dotenv.changeValue(nodes, index, "another value");
+nodes = dotenv.changeValue(nodes, index, "another\nvalue"); // new value contains a newline
 let text = dotenv.nodesToText(nodes);
-assert(text === `KEY=another value`);
+
+// the value is now quoted and the newline was escaped! also, the preceding whitespace
+// was kept intact!
+assert(text === `KEY=  "another\\nvalue"`);
 ```
 
 ### removeKeyValue
@@ -261,37 +293,42 @@ list in place.
 example:
 
 ```javascript
-import dotenv from "@glitchdotcom/dotenv";
+import * as dotenv from "@glitchdotcom/dotenv";
+
 let nodes = dotenv.textToNodes(`KEY=value
 SOMETHING=anything`);
 let index = nodes.find((node) => node.key === "SOMETHING");
-nodes = dotenv.removeKeyValue(nodes, index);
+nodes = dotenv.removeKeyValue(nodes, index); // removing the `SOMETHING` property
 let text = dotenv.nodesToText(nodes);
+
 assert(text === `KEY=value`);
 ```
 
 ### parseText
 
-`parseText` takes dotenv text and extracts the key-value pairs into an object.
+`parseText` takes dotenv text and extracts the key-value pairs into an object (similar
+to the original `dotenv` package).
 
 example:
 
 ```javascript
-import dotenv from "@glitchdotcom/dotenv";
+import * as dotenv from "@glitchdotcom/dotenv";
+
 let env = dotenv.parseText(`KEY=value`);
+
 assert(env.KEY === `value`);
 ```
 
 ### parseNodes
 
 `parseNodes` takes a node list and extracts the key-value pairs into an object. generally
-you want to use `parseText`, however if you've already converted the text into a node list,
-`parseNodes` skips the text parsing step.
+you'd want to use `parseText`, however if you've already converted the text into a node
+list, `parseNodes` would skip the text parsing step.
 
 example:
 
 ```javascript
-import dotenv from "@glitchdotcom/dotenv";
+import * as dotenv from "@glitchdotcom/dotenv";
 let nodes = dotenv.textToNodes(`KEY=value`);
 let env = dotenv.parseNodes(nodes);
 assert(env.KEY === `value`);
