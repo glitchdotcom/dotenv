@@ -1,4 +1,4 @@
-// Node types
+// node types
 export const KEY_VALUE = "KEY_VALUE";
 export const COMMENT = "COMMENT";
 export const INVALID_LINE = "INVALID_LINE";
