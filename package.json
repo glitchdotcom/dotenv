@@ -10,6 +10,10 @@
 		"parser",
 		"parse"
 	],
+	"files": [
+		"dotenv.esm.js",
+		"dotenv.cjs.js"
+	],
 	"homepage": "https://github.com/glitchdotcom/dotenv",
 	"repository": "glitchdotcom/dotenv",
 	"engines": {

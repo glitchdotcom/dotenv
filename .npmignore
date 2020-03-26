@@ -1,7 +1,0 @@
-*.test.js
-.prettierrc.toml
-.editorconfig
-rollup.config.js
-.github/
-tests/
-.prettierignore
