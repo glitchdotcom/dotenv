@@ -30,6 +30,9 @@ make a _perfect_ first contribution)!
 
 ## quickstart
 
+to see how dotenv syntax looks as a node list, you can play with an
+[interactive parser over at glitch.com!](https://glitchdotcom-dotenv-playground.glitch.me/)
+
 ```javascript
 import * as dotenv from "@glitchdotcom/dotenv";
 // or... const dotenv = require("@glitchdotcom/dotenv");
