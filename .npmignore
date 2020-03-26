@@ -3,3 +3,5 @@
 .editorconfig
 rollup.config.js
 .github/
+tests/
+.prettierignore
