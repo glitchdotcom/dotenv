@@ -35,8 +35,8 @@ function parseLine(line) {
 
 	const key = fullKey.trim();
 
-	// if the key contains whitespace, it's an invalid line
-	if (key.match(/\s/)) {
+	// if the key contains whitespace or is empty, it's an invalid line
+	if (key.match(/\s/) || key === "") {
 		return { type: INVALID_LINE, text: line };
 	}
 
