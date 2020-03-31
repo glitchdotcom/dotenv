@@ -1,6 +1,12 @@
 const test = require("ava");
 const complexEnv = require("./_complexEnv");
-const { appendKeyValue, nodesToText, textToNodes } = require("../dotenv.cjs");
+const {
+	appendKeyValue,
+	changeKey,
+	changeValue,
+	nodesToText,
+	textToNodes,
+} = require("../dotenv.cjs");
 
 test("appendKeyValue appends to the data", (t) => {
 	const key = "APPENDED_KEY";
@@ -12,4 +18,16 @@ ${key}=${value}`;
 	nodes = appendKeyValue(nodes, key, value);
 
 	t.is(nodesToText(nodes), expected);
+});
+
+test("appendKeyValue works with empty kv pairs", (t) => {
+	const key = "APPENDED_KEY";
+	const value = "value";
+
+	let nodes = textToNodes(``);
+	nodes = appendKeyValue(nodes, "", "");
+	nodes = changeKey(nodes, 0, key);
+	nodes = changeValue(nodes, 0, value);
+
+	t.is(nodesToText(nodes), `${key}=${value}`);
 });
