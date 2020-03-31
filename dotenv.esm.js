@@ -186,7 +186,7 @@ export function appendKeyValue(nodes, key, value) {
 		fullValue: escapedValue,
 
 		// if we escaped newlines, set quote
-		quote: value !== escapedValue ? '"' : null,
+		quote: value !== escapedValue ? '"' : "",
 	};
 
 	return [...nodes, newNode];
