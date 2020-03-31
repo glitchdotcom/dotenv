@@ -177,6 +177,8 @@ export function appendKeyValue(nodes, key, value) {
 
 	const escapedValue = escape(value);
 
+	const quote = value !== escapedValue ? '"' : "";
+
 	const newNode = {
 		type: KEY_VALUE,
 		key,
@@ -186,7 +188,8 @@ export function appendKeyValue(nodes, key, value) {
 		fullValue: escapedValue,
 
 		// if we escaped newlines, set quote
-		quote: value !== escapedValue ? '"' : "",
+		quote,
+		originalQuote: quote,
 	};
 
 	return [...nodes, newNode];
