@@ -93,7 +93,9 @@ export function nodesToText(nodes) {
 
 	for (const node of nodes) {
 		if (node.type === KEY_VALUE) {
-			result += `${node.fullKey}=${node.fullValue}`;
+			if (node.key !== "") {
+				result += `${node.fullKey}=${node.fullValue}`;
+			}
 		} else if (node.type === COMMENT) {
 			result += `${node.prefix}${node.comment}`;
 		} else if (node.type === INVALID_LINE) {
