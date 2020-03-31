@@ -1,6 +1,6 @@
 {
 	"name": "@glitchdotcom/dotenv",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "a totally tubular 🏄🏼 library to parse and manipulate dotenv syntax",
 	"license": "MIT",
 	"main": "./dotenv.cjs.js",
