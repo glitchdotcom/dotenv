@@ -169,6 +169,36 @@ export function changeValue(nodes, index, newValue) {
 	return newNodes;
 }
 
+export function setQuote(nodes, index, quote) {
+	const node = nodes[index];
+	if (node.type !== KEY_VALUE) {
+		return nodes;
+	}
+
+	if (quote === node.quote) {
+		return nodes;
+	}
+
+	if (node.value.match(/\n/) && quote === "") {
+		throw new Error("values with newlines require quotes");
+	}
+
+	const fullValue = node.fullValue.replace(
+		`${node.quote}${node.escapedValue}${node.quote}`,
+		`${quote}${node.escapedValue}${quote}`,
+	);
+
+	const newNode = {
+		...node,
+		fullValue,
+		quote,
+	};
+
+	const newNodes = nodes.slice();
+	newNodes.splice(index, 1, newNode);
+	return newNodes;
+}
+
 // append a key value pair to the end of the node list
 export function appendKeyValue(nodes, key, value) {
 	if (key.match(/\s/)) {
