@@ -24,12 +24,15 @@
 		"ava": "^3.5.1",
 		"dotenv": "^8.2.0",
 		"prettier": "^2.0.1",
-		"rollup": "^2.1.0"
+		"rollup": "^2.1.0",
+		"auto": "^10.3.0"
 	},
 	"scripts": {
 		"build": "rollup -c",
+		"rollup": "rollup -c",
 		"test": "prettier -c . && npm run build && ava",
 		"fmt": "prettier --write .",
-		"prepublishOnly": "npm run build"
+		"prepublishOnly": "npm run build",
+		"release": "auto shipit --base-branch=master"
 	}
 }
