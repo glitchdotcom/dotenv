@@ -33,6 +33,6 @@
 		"test": "prettier -c . && npm run build && ava",
 		"fmt": "prettier --write .",
 		"prepublishOnly": "npm run build",
-		"release": "auto shipit --base-branch=master"
+		"release": "auto shipit"
 	}
 }

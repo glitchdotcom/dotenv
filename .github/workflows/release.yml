@@ -28,8 +28,6 @@ jobs:
       - name: Build release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}
-          NPM_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           npm install --frozen-lockfile
           npm run rollup
@@ -37,7 +35,5 @@ jobs:
       - name: Create Release
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}
-          NPM_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           npm run release
