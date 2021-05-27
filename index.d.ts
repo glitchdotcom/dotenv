@@ -65,6 +65,6 @@ export function removeKeyValue(
 	index: number,
 ): DotenvNodeList;
 
-export function parseNodes(nodeList: DotenvNodeList): Record<string, any>;
+export function parseNodes(nodeList: DotenvNodeList): Record<string, unknown>;
 
-export function parseText(text: string): Record<string, any>;
+export function parseText(text: string): Record<string, unknown>;
