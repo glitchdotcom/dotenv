@@ -5,6 +5,7 @@
 	"license": "MIT",
 	"main": "./dotenv.cjs.js",
 	"module": "./dotenv.esm.js",
+	"types": "./index.d.ts",
 	"keywords": [
 		"dotenv",
 		"parser",
